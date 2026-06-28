@@ -11,7 +11,7 @@
 import pc from "picocolors";
 import type { CheckName, Finding, Severity } from "./scan.js";
 
-export const VERSION = "0.1.0";
+export const VERSION = "0.1.1";
 
 const REPO_URL = "github.com/eabhvee/kavaca-cli";
 
