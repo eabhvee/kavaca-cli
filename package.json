@@ -1,0 +1,52 @@
+{
+  "name": "kavaca",
+  "version": "0.1.0",
+  "description": "Free, local pre-flight security check for AI-built apps — finds exposed secrets and open Supabase databases in seconds. Nothing leaves your machine.",
+  "keywords": [
+    "security",
+    "secrets",
+    "supabase",
+    "rls",
+    "cli",
+    "ai",
+    "preflight",
+    "scanner"
+  ],
+  "homepage": "https://kavaca.com?ref=cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kavaca/kavaca.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "kavaca": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "TELEMETRY.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "ignore": "^5.3.1",
+    "picocolors": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}

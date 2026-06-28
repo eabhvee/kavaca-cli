@@ -1,0 +1,91 @@
+# Example reusable GitHub Action: run Kavaca's pre-flight security check on every
+# push and pull request. Copy this into your own repo at
+# `.github/workflows/kavaca.yml`.
+#
+# Kavaca runs entirely on the runner — it never uploads your code or secrets.
+# The job fails (red ❌) if any high/medium issue is found, blocking the merge.
+name: Kavaca security check
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+# Allow the job to comment findings back onto the pull request.
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  kavaca:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Run the scan in JSON mode and capture the report. `tee` keeps a copy on
+      # disk; `|| true` lets us format a nice comment before honoring the exit code.
+      - name: Run Kavaca
+        id: scan
+        run: |
+          npx --yes kavaca . --json | tee kavaca-report.json
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      # Post (or update) a PR comment summarizing the findings.
+      - name: Comment findings on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('kavaca-report.json', 'utf8'));
+            const lines = [];
+            lines.push(`### ◎ Kavaca — pre-flight security check`);
+            lines.push('');
+            lines.push(`**Score: ${report.score}/100** · ${report.issues.length} issue(s) across ${report.scannedFiles} files`);
+            lines.push('');
+            if (report.issues.length === 0) {
+              lines.push('✅ No exposed secrets or open Supabase tables found on these 3 checks.');
+            } else {
+              lines.push('| Severity | Check | Issue | Location |');
+              lines.push('|---|---|---|---|');
+              for (const i of report.issues) {
+                const loc = i.file ? `\`${i.file}:${i.line}\`` : '—';
+                lines.push(`| ${i.severity.toUpperCase()} | ${i.check} | ${i.title} | ${loc} |`);
+              }
+              lines.push('');
+              lines.push('> Evidence is masked — Kavaca never prints or uploads full secrets.');
+            }
+            lines.push('');
+            lines.push('Full scan (auth, API, dependencies + more): https://kavaca.com?ref=cli');
+            const body = lines.join('\n');
+
+            // Update an existing Kavaca comment if present, else create one.
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const marker = '◎ Kavaca — pre-flight security check';
+            const existing = comments.find(c => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                comment_id: existing.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: context.issue.number, body,
+              });
+            }
+
+      # Finally, fail the job if Kavaca found blocking issues.
+      - name: Enforce result
+        if: steps.scan.outputs.exit_code != '0'
+        run: |
+          echo "Kavaca found high/medium security issues. See the report above."
+          exit 1

@@ -1,0 +1,7 @@
+node_modules/
+.next/
+dist/
+# Real secrets live in .env files which are never committed.
+.env
+.env.local
+.env.*.local
