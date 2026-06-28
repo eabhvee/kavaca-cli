@@ -42,6 +42,9 @@ const HELP = `
   open Supabase databases — in seconds. Everything runs locally; nothing is
   ever uploaded.
 
+  Kavaca respects your .gitignore. To skip intentional fakes (test fixtures,
+  sample apps, doc snippets), add gitignore-style globs to a .kavacaignore file.
+
   Arguments:
     path               Directory to scan (default: current directory)
 

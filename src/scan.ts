@@ -80,17 +80,27 @@ function looksBinary(buf: Buffer): boolean {
   return false;
 }
 
-/** Load the root .gitignore (if any) into an `ignore` matcher. */
-function loadGitignore(root: string): Ignore {
+/**
+ * Build an `ignore` matcher from the repo's ignore files.
+ *
+ * Always honors `.gitignore`. When `includeKavacaignore` is true (the file
+ * walk), it ALSO honors `.kavacaignore` — a gitignore-style allowlist for paths
+ * you intentionally want kavaca to skip (test fixtures with planted fakes,
+ * sample apps, doc snippets). Crucially this is OPT-IN per repo: kavaca never
+ * blanket-skips `test/` or similar, because real secret leaks happen there too.
+ */
+function loadIgnore(root: string, includeKavacaignore: boolean): Ignore {
   const ig = ignore();
   // Always ignore the VCS dir itself for matching purposes.
   ig.add([".git"]);
-  const gitignorePath = path.join(root, ".gitignore");
-  try {
-    const txt = fs.readFileSync(gitignorePath, "utf8");
-    ig.add(txt);
-  } catch {
-    // No .gitignore is fine.
+  for (const file of includeKavacaignore
+    ? [".gitignore", ".kavacaignore"]
+    : [".gitignore"]) {
+    try {
+      ig.add(fs.readFileSync(path.join(root, file), "utf8"));
+    } catch {
+      // Missing ignore file is fine.
+    }
   }
   return ig;
 }
@@ -101,7 +111,8 @@ function loadGitignore(root: string): Ignore {
  */
 export function scan(root: string): ScanResult {
   const absRoot = path.resolve(root);
-  const ig = loadGitignore(absRoot);
+  // The walk honors both .gitignore and .kavacaignore.
+  const ig = loadIgnore(absRoot, true);
   const files: ScannedFile[] = [];
 
   const walk = (dir: string): void => {
@@ -168,6 +179,8 @@ export function toPosix(p: string): string {
  * detector can tell whether a committed `.env` would actually be ignored.
  */
 export function makeGitignoreChecker(root: string): (relPath: string) => boolean {
-  const ig = loadGitignore(path.resolve(root));
+  // Gitignore ONLY — the committed-.env heuristic asks "would git track this?",
+  // which a .kavacaignore entry must not influence.
+  const ig = loadIgnore(path.resolve(root), false);
   return (relPath: string) => ig.ignores(toPosix(relPath));
 }

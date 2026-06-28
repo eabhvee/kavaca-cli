@@ -1,0 +1,12 @@
+# .kavacaignore — gitignore-style paths that kavaca should skip when scanning
+# THIS repo. Unlike .gitignore, these files ARE committed; we just don't want
+# kavaca's self-scan to flag them.
+#
+# Everything below contains INTENTIONALLY planted fake secrets and an un-RLS'd
+# table that power the test suite (see test/fixtures/vulnerable). They are not
+# real exposure. We deliberately do NOT ignore all of test/ — only the files
+# that hold deliberate fakes — so genuine leaks in real tests would still surface.
+
+test/fixtures/vulnerable/
+test/masking.test.ts
+test/kavacaignore.test.ts

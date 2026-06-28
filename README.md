@@ -64,6 +64,23 @@ It's deliberately quiet about false positives: example/sample files, `process.en
 references, and placeholder values (`your_key_here`, `changeme`, …) are ignored. A
 noisy security tool gets uninstalled — so Kavaca biases toward precision.
 
+### Ignoring intentional fakes (`.kavacaignore`)
+
+Kavaca respects your `.gitignore`. For files that *are* committed but hold
+deliberate fakes — security-test fixtures, sample apps, doc snippets — add a
+`.kavacaignore` (gitignore-style globs) to your project root:
+
+```gitignore
+# .kavacaignore
+test/fixtures/
+docs/examples/
+```
+
+It's intentionally opt-in and path-scoped: Kavaca never auto-skips `test/` or
+similar directories, because real secret leaks happen there too. (This repo ships
+its own `.kavacaignore` so the planted fakes in `test/fixtures/vulnerable` don't
+trip the self-scan.)
+
 ### What you'll see
 
 ```
