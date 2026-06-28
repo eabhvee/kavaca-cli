@@ -17,6 +17,7 @@ import {
   renderJson,
   hasBlockingIssues,
   VERSION,
+  UPGRADE_URL,
 } from "./report.js";
 import { maybeSendTelemetry } from "./telemetry.js";
 
@@ -55,7 +56,7 @@ const HELP = `
     --version, -v      Print version
     --help, -h         Show this help
 
-  Full scan (auth, API, dependencies + more): https://kavaca.io?ref=cli
+  Full scan (auth, API, dependencies + more): ${UPGRADE_URL}
 `;
 
 export function parseArgs(argv: string[]): {

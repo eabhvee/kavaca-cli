@@ -14,7 +14,12 @@ import type { CheckName, Finding, Severity } from "./scan.js";
 export const VERSION = "0.1.0";
 
 const REPO_URL = "github.com/eabhvee/kavaca-cli";
-const UPGRADE_URL = "https://kavaca.io?ref=cli";
+
+// Upgrade CTA. Standard UTM params let any analytics tool attribute CLI traffic
+// with zero config; `v` carries the tool version so we can see which releases
+// convert. `ref=cli` is kept for backward-compatibility with existing reports.
+export const UPGRADE_URL =
+  `https://kavaca.io?ref=cli&utm_source=cli&utm_medium=cli&utm_campaign=preflight&v=${VERSION}`;
 
 const SEVERITY_WEIGHT: Record<Severity, number> = {
   high: 25,
