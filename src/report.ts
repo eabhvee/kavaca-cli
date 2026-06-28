@@ -10,8 +10,12 @@
 
 import pc from "picocolors";
 import type { CheckName, Finding, Severity } from "./scan.js";
+// Single source of truth for the version: package.json. The bundler (tsup) and
+// the test runner (vitest) both inline this JSON import, so `npm version <x>`
+// is the only place a release number ever needs to change.
+import { version } from "../package.json";
 
-export const VERSION = "0.1.1";
+export const VERSION: string = version;
 
 const REPO_URL = "github.com/eabhvee/kavaca-cli";
 
