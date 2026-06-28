@@ -13,7 +13,7 @@ import type { CheckName, Finding, Severity } from "./scan.js";
 
 export const VERSION = "0.1.0";
 
-const REPO_URL = "github.com/kavaca/kavaca";
+const REPO_URL = "github.com/eabhvee/kavaca-cli";
 const UPGRADE_URL = "https://kavaca.io?ref=cli";
 
 const SEVERITY_WEIGHT: Record<Severity, number> = {

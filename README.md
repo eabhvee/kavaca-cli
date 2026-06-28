@@ -185,4 +185,4 @@ node dist/index.js ./some/project
 
 [MIT](LICENSE) — free and open source.
 
-⭐ If Kavaca saved you from a leak, **star the repo**: github.com/kavaca/kavaca
+⭐ If Kavaca saved you from a leak, **star the repo**: github.com/eabhvee/kavaca-cli
