@@ -55,7 +55,7 @@ const HELP = `
     --version, -v      Print version
     --help, -h         Show this help
 
-  Full scan (auth, API, dependencies + more): https://kavaca.com?ref=cli
+  Full scan (auth, API, dependencies + more): https://kavaca.io?ref=cli
 `;
 
 export function parseArgs(argv: string[]): {

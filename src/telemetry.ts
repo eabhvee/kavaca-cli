@@ -17,7 +17,7 @@ import type { CheckName, Finding } from "./scan.js";
 import { VERSION } from "./report.js";
 
 /** Override-able endpoint (env var) so self-hosters can point elsewhere. */
-const DEFAULT_ENDPOINT = "https://kavaca.com/api/telemetry";
+const DEFAULT_ENDPOINT = "https://kavaca.io/api/telemetry";
 
 /** The complete, exhaustive payload schema. Nothing else is ever added. */
 export interface TelemetryPayload {

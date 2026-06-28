@@ -60,7 +60,7 @@ jobs:
               lines.push('> Evidence is masked — Kavaca never prints or uploads full secrets.');
             }
             lines.push('');
-            lines.push('Full scan (auth, API, dependencies + more): https://kavaca.com?ref=cli');
+            lines.push('Full scan (auth, API, dependencies + more): https://kavaca.io?ref=cli');
             const body = lines.join('\n');
 
             // Update an existing Kavaca comment if present, else create one.

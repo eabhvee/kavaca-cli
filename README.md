@@ -12,7 +12,7 @@ npx kavaca
 That's it. No install, no account, no config. The scan runs **entirely on your
 machine** — your code and secrets never leave it.
 
-[![Security: Kavaca](https://img.shields.io/badge/security-kavaca-2ea44f)](https://kavaca.com?ref=cli)
+[![Security: Kavaca](https://img.shields.io/badge/security-kavaca-2ea44f)](https://kavaca.io?ref=cli)
 
 ---
 
@@ -133,7 +133,7 @@ jobs:
 Show your repo is checked:
 
 ```markdown
-[![Security: Kavaca](https://img.shields.io/badge/security-kavaca-2ea44f)](https://kavaca.com?ref=cli)
+[![Security: Kavaca](https://img.shields.io/badge/security-kavaca-2ea44f)](https://kavaca.io?ref=cli)
 ```
 
 ## Privacy & telemetry
@@ -149,7 +149,7 @@ network surface is a single, clearly-gated function in `src/telemetry.ts`.
 ## → Want the full picture?
 
 This free CLI checks **3 of 8** risk areas. The hosted scan at
-**[kavaca.com](https://kavaca.com?ref=cli)** adds auth, API, and dependency
+**[kavaca.io](https://kavaca.io?ref=cli)** adds auth, API, and dependency
 checks — with **plain-English fixes and ready-to-paste prompts** you can hand
 straight back to your AI tool.
 

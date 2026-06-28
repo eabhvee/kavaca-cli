@@ -12,7 +12,7 @@
     "preflight",
     "scanner"
   ],
-  "homepage": "https://kavaca.com?ref=cli",
+  "homepage": "https://kavaca.io?ref=cli",
   "repository": {
     "type": "git",
     "url": "https://github.com/kavaca/kavaca.git"

@@ -71,7 +71,7 @@ is fully functional — identical, in fact — without it.
 
 ## Configuration
 
-- **Endpoint:** defaults to `https://kavaca.com/api/telemetry`. Override with the
+- **Endpoint:** defaults to `https://kavaca.io/api/telemetry`. Override with the
   `KAVACA_TELEMETRY_URL` environment variable (useful for self-hosters or for
   pointing at a local sink to inspect the payload yourself).
 - **Timeout:** the request is aborted after 2 seconds and any failure is silently
